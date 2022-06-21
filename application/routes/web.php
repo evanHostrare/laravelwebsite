@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ Route::get('/', function () {
 
 Route::get('/home', [homeController::class,'home2']);
 Route::get('/about', [homeController::class,'home']);
+
+Route::resource('posts', PostController::class);
 
 Route::middleware([
     'auth:sanctum',
