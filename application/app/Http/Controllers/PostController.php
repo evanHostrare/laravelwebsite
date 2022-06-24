@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Session;
 
 class PostController extends Controller
 {
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $postlist = Post::all();
+        $postlist = Post::paginate(50);
         return view('posts.list')
                 ->with('list', $postlist);
     }
@@ -26,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        echo 'Post Create';
+        return view('posts.create');
     }
 
     /**
@@ -37,7 +38,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post=new Post();
+        $post->title=$request->title;
+        $post->content=$request->content;
+        $post->save();
+        // Checking Save working or not
+        if($post->id){
+            Session()->put('message','Save Successful!');
+            return redirect('posts');
+        }else{
+            Session()->put('message','Save Failed!'); 
+            return redirect('posts/create');
+        }
     }
 
     /**
