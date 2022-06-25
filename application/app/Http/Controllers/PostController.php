@@ -71,7 +71,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        echo $id.'edit form';
+        $singlepost=Post::where('id',$id)->first();
+        //$singlepost=Post::find($id); 
+        return view('posts.edit')
+                ->with('singlepost',$singlepost);
     }
 
     /**
@@ -83,7 +86,18 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post=Post::where('id',$id)->first();
+        $post->title=$request->title;
+        $post->content=$request->content;
+        $post->save();
+        // Checking Save working or not
+        if($post->id){
+            Session()->put('message','Save Successful!');
+            return redirect('posts');
+        }else{
+            Session()->put('message','Save Failed!'); 
+            return redirect('posts/create');
+        }
     }
 
     /**

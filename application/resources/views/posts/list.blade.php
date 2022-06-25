@@ -6,11 +6,13 @@
     <tr>
         <th>Title</th>
         <th>Content</th>
+        <th>Action</th>
     </tr>
     @foreach($list as $item)
     <tr>
         <td>{{$item->title}}</td>
         <td>{{$item->content}}</td>
+        <td><a href="{{URL::to('/')}}/posts/{{$item->id}}/edit">Edit</a></td>
     </tr>
     @endforeach
 </table>
