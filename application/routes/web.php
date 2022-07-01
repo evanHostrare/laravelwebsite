@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::get('/home', [homeController::class,'home2']);
 Route::get('/about', [homeController::class,'home']);
 
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',

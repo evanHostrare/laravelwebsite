@@ -13,6 +13,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+
     public function index()
     {
         $postlist = Post::paginate(50);
@@ -37,7 +42,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
         $post=new Post();
         $post->title=$request->title;
         $post->content=$request->content;
@@ -108,6 +113,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Post::where('id',$id)->delete();
+        return redirect('posts');
     }
 }
