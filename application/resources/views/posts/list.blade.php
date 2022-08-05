@@ -1,5 +1,9 @@
 <h2>Welcome</h2>
+<a href="{{URL::to('/')}}/dashboard" style="float:left;"> Dashboard</a>
 <a href="{{URL::to('/')}}/posts/create" style="float:right;">New Post</a>
+<form method="POST" action="{{URL::to('/')}}/logout" >@csrf
+    <button type="submit">Logout</button>
+</form>
 
 {{\Session()->get('message')}}
 <table width="100%" border="1">
