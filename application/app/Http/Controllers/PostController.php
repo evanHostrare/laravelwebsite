@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Post;
 use Session;
 
@@ -45,6 +46,12 @@ class PostController extends Controller
     {        
         $post=new Post();
         $post->title=$request->title;
+        $post->section=$request->section;
+        if($request->picture){
+            $imageName=Carbon::now()->timestamp.'.'.$request->picture->extension();
+            $request->picture->storeAs('posts/',$imageName);
+            $post->picture=$imageName;
+        }
         $post->content=$request->content;
         $post->save();
         // Checking Save working or not
@@ -93,6 +100,12 @@ class PostController extends Controller
     {
         $post=Post::where('id',$id)->first();
         $post->title=$request->title;
+        $post->section=$request->section;
+        if($request->picture){
+            $imageName=Carbon::now()->timestamp.'.'.$request->picture->extension();
+            $request->picture->storeAs('posts/',$imageName);
+            $post->picture=$imageName;
+        }
         $post->content=$request->content;
         $post->save();
         // Checking Save working or not

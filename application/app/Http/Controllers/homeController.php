@@ -8,12 +8,18 @@ use App\Models\Post;
 class homeController extends Controller
 {
     public function index() {
-        $posts=Post::orderBy('id','asc')->get();
+        $services=Post::where('section','services')->orderBy('id','asc')->get();
+        $portfolios=Post::where('section','portfolio')->orderBy('id','asc')->get();
+        $abouts=Post::where('section','about')->orderBy('id','asc')->get();
+        $teams=Post::where('section','team')->orderBy('id','asc')->get();
         return view('home')
-            ->with('posts',$posts);
+            ->with('services',$services)
+            ->with('portfolios',$portfolios)
+            ->with('abouts',$abouts)
+            ->with('teams',$teams);
     }
     public function postRearange() {
-        $posts=Post::select('id','title','content')->orderBy('title','desc')->get();
+        $posts=Post::select('id','title','content')->where('section','services')->orderBy('title','desc')->get();
         return $posts;
     }
     public function home2() {

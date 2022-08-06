@@ -9,6 +9,8 @@
 <table width="100%" border="1">
     <tr>
         <th>Title</th>
+        <th>Picture</th>
+        <th>Section</th>
         <th>Content</th>
         <th>Action</th>
         <th>Delete</th>
@@ -16,6 +18,12 @@
     @foreach($list as $item)
     <tr>
         <td>{{$item->title}}</td>
+        <td>
+            @if($item->picture)
+            <img style="width:50px;" src="{{URL::to('/')}}/application/storage/app/posts/{{$item->picture}}" alt="">
+            @endif
+        </td>
+        <td>{{$item->section}}</td>
         <td>{{$item->content}}</td>
         <td><a href="{{URL::to('/')}}/posts/{{$item->id}}/edit">Edit</a></td>
         <td>
@@ -28,4 +36,3 @@
     @endforeach
 </table>
 {{$list->links()}}
-
