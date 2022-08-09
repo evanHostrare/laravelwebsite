@@ -21,7 +21,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $postlist = Post::paginate(50);
+        $postlist = Post::get();
         return view('posts.list')
                 ->with('list', $postlist);
     }

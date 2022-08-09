@@ -19,24 +19,24 @@ Home Page
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
             <script type="text/javascript">
                 $(document).ready(function(){
-                    $("#rearange").click(function(){
-                        debugger;
-                    $.ajax({
-                        type: 'GET',
-                        url: "{{URL::to('/')}}/postRearange",
-                        success:function(data){
-                            $('#oldcontent').hide();
-                            console.log(data);
-                            $("#postdata").empty();
-                            $.each(data, function(propName, propVal) {
-                                console.log(propName, propVal);
-                                $("#postdata").append('<div class="col-md-4"> <span class="fa-stack fa-4x"> <i class="fas fa-circle fa-stack-2x text-primary"></i> <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> </span> <h4 class="my-3">'+propVal.title+'</h4> <p class="text-muted">'+propVal.content+'</p></div>');
+                            $("#rearange").click(function(){
+                                debugger;
+                            $.ajax({
+                                type: 'GET',
+                                url: "{{URL::to('/')}}/postRearange",
+                                success:function(data){
+                                    $('#oldcontent').hide();
+                                    //console.log(data);
+                                    $("#postdata").empty();
+                                    $.each(data, function(propName, propVal) {
+                                        //console.log(propName, propVal);
+                                        $("#postdata").append('<div class="col-md-4"> <span class="fa-stack fa-4x"> <i class="fas fa-circle fa-stack-2x text-primary"></i> <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> </span> <h4 class="my-3">'+propVal.title+'</h4> <p class="text-muted">'+propVal.content+'</p></div>');
+                                    });
+                                }
                             });
-                        }
-                    });
-                return false;
+                        return false;
+                        });
                 });
-            });
             </script>
             <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
         </div>
