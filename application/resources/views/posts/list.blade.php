@@ -22,6 +22,7 @@
                                 <th>Picture</th>
                                 <th>Section</th>
                                 <th>Content</th>
+                                <th>Posted</th>
                                 <th>Action</th>
                                 <th>Delete</th>
                             </tr>
@@ -37,6 +38,8 @@
                                 </td>
                                 <td>{{$item->section}}</td>
                                 <td>{{$item->content}}</td>
+                                <td>{{$item->posteremail}}<br>
+                                {{$item->postername}}</td>
                                 <td><a href="{{URL::to('/')}}/posts/{{$item->id}}/edit" class="btn btn-warning">Edit</a></td>
                                 <td>
                                     <form action="{{URL::to('/')}}/posts/{{$item->id}}" method="post"> @csrf

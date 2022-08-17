@@ -14,6 +14,7 @@
         <option value="portfolio" @if($singlepost->section=='portfolio') selected @endif>Portfolio</option>
         <option value="about" @if($singlepost->section=='about') selected @endif>About</option>
         <option value="team" @if($singlepost->section=='team') selected @endif>Our Amazing Team</option>
+        <option value="brand" @if($singlepost->section=='brand') selected @endif>Brand Logo</option>
     </select><br>   
     @if($singlepost->picture)     
     Old Picture:<br>

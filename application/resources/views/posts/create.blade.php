@@ -13,6 +13,7 @@
         <option value="portfolio">Portfolio</option>
         <option value="about">About</option>
         <option value="team">Our Amazing Team</option>
+        <option value="brand">Brand Logo</option>
     </select><br>
     <input type="file" name="picture" class="form-control"><br>
     <textarea class="form-control" name="content" placeholder="Content" cols="30" rows="10"></textarea><br>

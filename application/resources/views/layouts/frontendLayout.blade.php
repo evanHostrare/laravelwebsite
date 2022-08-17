@@ -33,7 +33,7 @@
                         <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                         @if(Auth::check())
-                        <li class="nav-item"><a class="nav-link" href="{{URL::to('dashboard')}}">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{URL::to('dashboard')}}">{{Auth::user()->name}}</a></li>
                         @else
                         <li class="nav-item"><a class="nav-link" href="{{URL::to('login')}}">Login</a></li>
                         @endif

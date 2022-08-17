@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Post;
 use Session;
+use Auth;
+use DB;
 
 class PostController extends Controller
 {
@@ -21,7 +23,10 @@ class PostController extends Controller
 
     public function index()
     {
-        $postlist = Post::get();
+        $postlist = DB::table('posts')
+                    ->join('users', 'posts.creator', '=', 'users.id')
+                    ->select('posts.*', 'users.email as posteremail','users.name as postername')
+                    ->get();
         return view('posts.list')
                 ->with('list', $postlist);
     }
@@ -52,6 +57,7 @@ class PostController extends Controller
             $request->picture->storeAs('posts/',$imageName);
             $post->picture=$imageName;
         }
+        $post->creator=Auth::user()->id;
         $post->content=$request->content;
         $post->save();
         // Checking Save working or not
