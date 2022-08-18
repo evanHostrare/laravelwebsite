@@ -29,6 +29,7 @@ Route::get('/product', [homeController::class,'product']);
 
 Route::get('/home', [homeController::class,'home2']);
 Route::get('/about', [homeController::class,'home']);
+Route::post('/sendContactUs', [homeController::class,'sendContactUs']);
 
 Route::resource('posts', PostController::class)->middleware('auth');
 

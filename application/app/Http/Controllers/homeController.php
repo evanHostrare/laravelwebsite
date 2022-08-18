@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactUs;
 
 class homeController extends Controller
 {
@@ -17,6 +19,11 @@ class homeController extends Controller
             ->with('portfolios',$portfolios)
             ->with('abouts',$abouts)
             ->with('teams',$teams);
+    }
+    public function sendContactUs(Request $request) {
+        //dd($request->all());
+        Mail::to('evan@hostrare.com')->send(new ContactUs($request->name,$request->email,$request->phone,$request->content));
+        return redirect('/');
     }
     public function postRearange() {
         $posts=Post::select('id','title','content')->where('section','services')->orderBy('title','desc')->get();
