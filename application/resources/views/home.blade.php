@@ -51,7 +51,8 @@ Home Page
                 </span> --}}
                 
                 <img src="{{URL::to('/')}}/application/storage/app/posts/{{$service->picture}}" alt="">
-                <h4 class="my-3">{{$service->title}}</h4>
+                <h4 class="my-3"> 
+                    <i class="fa {{$service->faicon}}"></i> {{$service->title}}</h4>
                 <p class="text-muted">{!!$service->content!!}</p>
             </div>
             @endforeach

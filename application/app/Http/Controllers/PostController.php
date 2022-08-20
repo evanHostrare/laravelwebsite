@@ -57,6 +57,7 @@ class PostController extends Controller
             $request->picture->storeAs('posts/',$imageName);
             $post->picture=$imageName;
         }
+        $post->faicon=$request->faicon;
         $post->creator=Auth::user()->id;
         $post->content=$request->content;
         $post->save();
@@ -112,6 +113,7 @@ class PostController extends Controller
             $request->picture->storeAs('posts/',$imageName);
             $post->picture=$imageName;
         }
+        $post->faicon=$request->faicon;
         $post->content=$request->content;
         $post->save();
         // Checking Save working or not
