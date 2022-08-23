@@ -4,31 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Models\Post;
+use App\Models\Cat;
 use Session;
 use Auth;
 use DB;
 
-class PostController extends Controller
+class CatController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
     public function index()
     {
-        $postlist = DB::table('posts')
-                    ->join('users', 'posts.creator', '=', 'users.id')
-                    ->select('posts.*', 'users.email as posteremail','users.name as postername')
+        $catlist = DB::table('categories')
+                    ->join('users', 'categories.creator', '=', 'users.id')
+                    ->select('categories.*', 'users.email as posteremail','users.name as postername')
                     ->get();
-        return view('posts.list')
-                ->with('list', $postlist);
+        return view('cats.list')
+                ->with('list', $catlist);
     }
 
     /**
@@ -38,7 +33,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('cats.create');
     }
 
     /**
@@ -49,25 +44,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {        
-        $post=new Post();
-        $post->title=$request->title;
-        $post->section=$request->section;
-        if($request->picture){
-            $imageName=Carbon::now()->timestamp.'.'.$request->picture->extension();
-            $request->picture->storeAs('posts/',$imageName);
-            $post->picture=$imageName;
-        }
-        $post->faicon=$request->faicon;
-        $post->creator=Auth::user()->id;
-        $post->content=$request->content;
-        $post->save();
+        $cats=new Cat();
+        $cats->name=$request->name;
+        $cats->status=1;
+        $cats->creator=Auth::user()->id;
+        $cats->save();
         // Checking Save working or not
-        if($post->id){
+        if($cats->id){
             Session()->put('message','Save Successful!');
-            return redirect('posts');
+            return redirect('cats');
         }else{
             Session()->put('message','Save Failed!'); 
-            return redirect('posts/create');
+            return redirect('cats/create');
         }
     }
 
@@ -90,10 +78,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $singlepost=Post::where('id',$id)->first();
+        $singlecat=Cat::where('id',$id)->first();
         //$singlepost=Post::find($id); 
-        return view('posts.edit')
-                ->with('singlepost',$singlepost);
+        return view('cats.edit')
+                ->with('singlecat',$singlecat);
     }
 
     /**
@@ -105,24 +93,16 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post=Post::where('id',$id)->first();
-        $post->title=$request->title;
-        $post->section=$request->section;
-        if($request->picture){
-            $imageName=Carbon::now()->timestamp.'.'.$request->picture->extension();
-            $request->picture->storeAs('posts/',$imageName);
-            $post->picture=$imageName;
-        }
-        $post->faicon=$request->faicon;
-        $post->content=$request->content;
-        $post->save();
+        $cats=Cat::where('id',$id)->first();
+        $cats->name=$request->name;
+        $cats->save();
         // Checking Save working or not
-        if($post->id){
+        if($cats->id){
             Session()->put('message','Save Successful!');
-            return redirect('posts');
+            return redirect('cats');
         }else{
             Session()->put('message','Save Failed!'); 
-            return redirect('posts/'.$id.'/edit');
+            return redirect('cats/'.$id.'/edit');
         }
     }
 
@@ -134,7 +114,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        Post::where('id',$id)->delete();
-        return redirect('posts');
+        Cat::where('id',$id)->delete();
+        return redirect('cats');
     }
 }

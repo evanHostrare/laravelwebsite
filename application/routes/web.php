@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::get('/about', [homeController::class,'home']);
 Route::post('/sendContactUs', [homeController::class,'sendContactUs']);
 
 Route::resource('posts', PostController::class)->middleware('auth');
+Route::resource('cats', CatController::class)->middleware('auth');
 
 // Route::get('posts', [PostController::class,'index'])->middleware('auth');
 // Route::get('posts/create', [PostController::class,'create'])->middleware('auth');
