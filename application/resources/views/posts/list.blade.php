@@ -37,7 +37,7 @@
                                     @endif
                                 </td>
                                 <td>{{$item->section}}</td>
-                                <td>{{$item->content}}</td>
+                                <td>{!!$item->content!!}</td>
                                 <td>{{$item->posteremail}}<br>
                                 {{$item->postername}}</td>
                                 <td><a href="{{URL::to('/')}}/posts/{{$item->id}}/edit" class="btn btn-warning">Edit</a></td>

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Models\Post;
+use Validator;
+use Illuminate\Validation\Rules\File;
 use Session;
 use Auth;
 use DB;
+
+use Carbon\Carbon;
+use App\Models\Post;
+
 
 class PostController extends Controller
 {
@@ -49,25 +53,48 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {        
-        $post=new Post();
-        $post->title=$request->title;
-        $post->section=$request->section;
-        if($request->picture){
-            $imageName=Carbon::now()->timestamp.'.'.$request->picture->extension();
-            $request->picture->storeAs('posts/',$imageName);
-            $post->picture=$imageName;
-        }
-        $post->faicon=$request->faicon;
-        $post->creator=Auth::user()->id;
-        $post->content=$request->content;
-        $post->save();
-        // Checking Save working or not
-        if($post->id){
-            Session()->put('message','Save Successful!');
-            return redirect('posts');
-        }else{
-            Session()->put('message','Save Failed!'); 
-            return redirect('posts/create');
+        $rules = array(
+            'title'       => 'required|max:10',
+            'section'       => 'required',
+            'picture' => 'required|mimes:png|max:2MB',
+            'content'       => 'required|min:10'
+        );
+        $messages = [
+            'title.required' => 'Title Required',
+            'title.max' => 'Max 10 Carecter Allowed',
+            'section.required' => 'Section Required',
+            'picture.required' => 'Picture Required',
+            'picture.mimes' => 'Only PNG File Allowed',
+            'picture.max' => 'Max 2 MB Allowed',
+            'content.required' => 'Content Required',
+            'content.min' => 'Minimum 10 Carecter Required'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect('posts/create')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $post=new Post();
+            $post->title=$request->title;
+            $post->section=$request->section;
+            if($request->picture){
+                $imageName=Carbon::now()->timestamp.'.'.$request->picture->extension();
+                $request->picture->storeAs('posts/',$imageName);
+                $post->picture=$imageName;
+            }
+            $post->faicon=$request->faicon;
+            $post->creator=Auth::user()->id;
+            $post->content=$request->content;
+            $post->save();
+            // Checking Save working or not
+            if($post->id){
+                Session()->put('message','Save Successful!');
+                return redirect('posts');
+            }else{
+                Session()->put('message','Save Failed!'); 
+                return redirect('posts/create');
+            }
         }
     }
 

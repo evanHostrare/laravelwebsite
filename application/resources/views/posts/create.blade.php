@@ -6,18 +6,22 @@
 <h2>New Post</h2>
 {{\Session()->get('message')}}
 <form action="{{URL::to('/')}}/posts" method="post" enctype="multipart/form-data"> @csrf
-    <input type="text" name="title" placeholder="Title" class="form-control"><br>
+    <input type="text" value="{{ old('title') }}" name="title" placeholder="Title" class="form-control">
+    @if ($errors->has('title')) <span class="text-danger"> {{ $errors->first('title') }} </span> @endif <br>
     <select name="section" id="" class="form-control">
         <option value="">Select Section</option>
-        <option value="services">Services</option>
-        <option value="portfolio">Portfolio</option>
-        <option value="about">About</option>
-        <option value="team">Our Amazing Team</option>
-        <option value="brand">Brand Logo</option>
-    </select><br>
-    <input type="file" name="picture" class="form-control"><br>
+        <option value="services" @if(old('section')=='services') selected @endif>Services</option>
+        <option value="portfolio" @if(old('section')=='portfolio') selected @endif>Portfolio</option>
+        <option value="about" @if(old('section')=='about') selected @endif>About</option>
+        <option value="team" @if(old('section')=='team') selected @endif>Our Amazing Team</option>
+        <option value="brand" @if(old('section')=='brand') selected @endif>Brand Logo</option>
+    </select>
+    @if ($errors->has('section'))<span class="text-danger">{{ $errors->first('section') }}  </span> @endif <br>
+    <input type="file" name="picture" class="form-control">
+    @if ($errors->has('picture'))<span class="text-danger">{{ $errors->first('picture') }}  </span> @endif <br>
     <input type="text" name="faicon" placeholder="Fontawesome Icon" class="form-control"><br>
-    <textarea class="form-control" name="content" placeholder="Content" cols="30" rows="10"></textarea><br>
+    <textarea class="form-control" name="content" id="content" placeholder="Content" cols="30" rows="10"></textarea>
+    @if ($errors->has('content'))<span class="text-danger">{{ $errors->first('content') }}  </span> @endif <br>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

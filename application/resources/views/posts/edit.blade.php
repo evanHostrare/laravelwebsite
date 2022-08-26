@@ -24,7 +24,7 @@
     
     <input type="file" name="picture" class="form-control"><br>
     <input type="text" name="faicon" placeholder="Fontawesome Icon" class="form-control" value="{{$singlepost->faicon}}"><br>
-    <textarea class="form-control" name="content" placeholder="Content" cols="30" rows="10">{{$singlepost->content}}</textarea><br>
+    <textarea class="form-control" name="content" id="content" placeholder="Content" cols="30" rows="10">{{$singlepost->content}}</textarea><br>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
