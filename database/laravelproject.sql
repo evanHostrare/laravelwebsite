@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2022 at 04:02 AM
+-- Generation Time: Aug 27, 2022 at 04:27 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(80) NOT NULL,
+  `parent` int(11) NOT NULL DEFAULT 0,
   `status` tinyint(1) DEFAULT 1,
   `creator` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -40,8 +41,14 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `status`, `creator`, `created_at`, `updated_at`) VALUES
-(1, 'Honey', 1, 1, '2022-08-22 19:54:09', '2022-08-23 01:54:09');
+INSERT INTO `categories` (`id`, `name`, `parent`, `status`, `creator`, `created_at`, `updated_at`) VALUES
+(1, 'Honey', 0, 1, 1, '2022-08-22 19:54:09', '2022-08-23 01:54:09'),
+(4, 'Rice', 0, 1, 1, '2022-08-22 20:08:38', '2022-08-27 07:26:39'),
+(5, 'Mustered Honey', 1, 1, 1, '2022-08-26 19:28:01', '2022-08-27 01:54:34'),
+(6, 'Rangpur Rice', 4, 1, 1, '2022-08-26 19:28:33', '2022-08-27 01:28:33'),
+(7, 'Dal', 0, 1, 1, '2022-08-26 19:34:32', '2022-08-27 01:34:32'),
+(8, 'Premium Honey', 1, 1, 1, '2022-08-26 19:53:35', '2022-08-27 01:53:35'),
+(9, 'Premium Dal', 7, 1, 1, '2022-08-26 19:53:57', '2022-08-27 01:53:57');
 
 -- --------------------------------------------------------
 
@@ -159,7 +166,8 @@ INSERT INTO `posts` (`id`, `section`, `picture`, `faicon`, `title`, `content`, `
 (24, 'brand', '1660617359.svg', NULL, 'Microsoft', 'Microsoft', 1, '2022-08-15 20:35:59', '2022-08-15 20:35:59'),
 (25, 'team', NULL, NULL, 'Test post', 'test', 3, '2022-08-16 19:27:02', '2022-08-16 19:27:02'),
 (26, 'team', NULL, NULL, 'Test post 2', 'test', 3, '2022-08-16 19:29:08', '2022-08-16 19:29:08'),
-(27, 'team', NULL, NULL, 'Test 3', 'Test post 3', 1, '2022-08-16 19:34:10', '2022-08-16 19:34:10');
+(27, 'team', NULL, NULL, 'Test 3', 'Test post 3', 1, '2022-08-16 19:34:10', '2022-08-16 19:34:10'),
+(28, 'team', '1661479927.png', NULL, 'Test Post', '<p><span style=\"font-size: 24pt;\"><img style=\"font-size: 14px;\" src=\"https://ninzas.com/img/favicon.png\" alt=\"\" width=\"118\" height=\"111\" /><img src=\"http://localhost/laravelwebsite/application/storage/app/posts/1661479927.png\" alt=\"\" width=\"79\" height=\"79\" /></span></p>\r\n<p><span style=\"font-size: 24pt;\"><strong>H</strong></span><strong style=\"font-size: 24pt;\">ello</strong></p>\r\n<ol style=\"list-style-type: lower-alpha;\">\r\n<li><span style=\"font-size: 12pt;\">Fr<span style=\"background-color: #ff6600;\">u</span>it</span></li>\r\n<li><span style=\"font-size: 12pt; font-family: impact, sans-serif;\"><span style=\"color: #ff9900;\">Flow</span>er</span></li>\r\n</ol>', 1, '2022-08-25 20:12:07', '2022-08-25 20:16:03');
 
 -- --------------------------------------------------------
 
@@ -215,10 +223,12 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CE0YepYXmneLUHKdOLpBTX7BsvZlysySHi59QU7Z', 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYXZGTU1lMHJrMnFhc1JHR2VpVlc0VzJsWUQ2QnVvVW51Mmo2OGJVViI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJGZjcUhPY3F4WlpqTFE0S215c1p4WHVCYk1LT0lkQTAwbDk2MHJwM2EzRGJZRnB6Z2ZZWUhDIjtzOjc6Im1lc3NhZ2UiO3M6MTY6IlNhdmUgU3VjY2Vzc2Z1bCEiO30=', 1661220046),
+('CE0YepYXmneLUHKdOLpBTX7BsvZlysySHi59QU7Z', 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYXZGTU1lMHJrMnFhc1JHR2VpVlc0VzJsWUQ2QnVvVW51Mmo2OGJVViI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvY2F0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkZmNxSE9jcXhaWmpMUTRLbXlzWnhYdUJiTUtPSWRBMDBsOTYwcnAzYTNEYllGcHpnZllZSEMiO3M6NzoibWVzc2FnZSI7czoxNjoiU2F2ZSBTdWNjZXNzZnVsISI7fQ==', 1661220525),
+('fqgf0boTcIzgDC96pSvEE8lp7ne9ZPk72ugwojQp', 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoia0hTc2U5SjhOaE51V0tMSHVsZnpINFVLdDh3bWZvNHhHRnVPRjd3eiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvY2F0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkZmNxSE9jcXhaWmpMUTRLbXlzWnhYdUJiTUtPSWRBMDBsOTYwcnAzYTNEYllGcHpnZllZSEMiO3M6NzoibWVzc2FnZSI7czoxNjoiU2F2ZSBTdWNjZXNzZnVsISI7fQ==', 1661565603),
 ('L8kJUOv3x26eQ2TcAHTJUJM6nQsfA0OPbDHznyfX', 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiRkR6eW1kRENUTm5jRmI5ZVlEWnVlRFplTHd6Ylh4NnFFZkdZTkhOaiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJGZjcUhPY3F4WlpqTFE0S215c1p4WHVCYk1LT0lkQTAwbDk2MHJwM2EzRGJZRnB6Z2ZZWUhDIjt9', 1660789300),
 ('nLBKCIUAMCfjtbWdqEibg3I4QngBrYV8Ywz6VBGz', 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZHVPMFMxOWhlNWZjM2prMWkxdUVqcXozcVJUc2VNdmtza3R6RmZkQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRmY3FIT2NxeFpaakxRNEtteXNaeFh1QmJNS09JZEEwMGw5NjBycDNhM0RiWUZwemdmWVlIQyI7czo3OiJtZXNzYWdlIjtzOjE2OiJTYXZlIFN1Y2Nlc3NmdWwhIjt9', 1660961291),
-('wTJSL9oX8VzyIamLa3E3F8tL2lYQqfA7IXqP362W', NULL, '127.0.0.1', 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOGZNOVYzSjJ5aDdnSk9uSWdQOFljNDZiMUpqOGNWVkFzZ0dOdmxNciI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDQ6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvcG9zdFJlYXJhbmdlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1660789141);
+('wTJSL9oX8VzyIamLa3E3F8tL2lYQqfA7IXqP362W', NULL, '127.0.0.1', 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOGZNOVYzSjJ5aDdnSk9uSWdQOFljNDZiMUpqOGNWVkFzZ0dOdmxNciI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDQ6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvcG9zdFJlYXJhbmdlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1660789141),
+('yWDCnccDDyOhpN0EYTiFIa8nvyJJBORWkSsfIaRK', 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidk9TcHZLbTlyYXlydkpXWFo1YVBaRzBqS1E4NTZVME52aFNrVldNaSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRmY3FIT2NxeFpaakxRNEtteXNaeFh1QmJNS09JZEEwMGw5NjBycDNhM0RiWUZwemdmWVlIQyI7czo3OiJtZXNzYWdlIjtzOjE2OiJTYXZlIFN1Y2Nlc3NmdWwhIjt9', 1661480285);
 
 -- --------------------------------------------------------
 
@@ -329,7 +339,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -353,7 +363,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `products`
