@@ -19,6 +19,7 @@
                         <thead>
                             <tr>
                                 <th>Category Name</th>
+                                <th>Parent</th>
                                 <th>Posted</th>
                                 <th>Action</th>
                                 <th>Delete</th>
@@ -28,6 +29,7 @@
                             @foreach($list as $item)
                             <tr>
                                 <td>{{$item->name}}</td>
+                                <td>@if($item->parent==0) Parent Category @else {{\DB::table('categories')->where('id',$item->parent)->value('name')}} @endif</td>
                                 
                                 <td>{{$item->posteremail}}<br>
                                 {{$item->postername}}</td>

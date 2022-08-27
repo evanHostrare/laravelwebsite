@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Cat;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUs;
 
@@ -14,10 +15,12 @@ class homeController extends Controller
         $portfolios=Post::where('section','portfolio')->orderBy('id','asc')->get();
         $abouts=Post::where('section','about')->orderBy('id','asc')->get();
         $teams=Post::where('section','team')->orderBy('id','asc')->get();
+        $cats=Cat::where('parent',0)->get();
         return view('home')
             ->with('services',$services)
             ->with('portfolios',$portfolios)
             ->with('abouts',$abouts)
+            ->with('cats',$cats)
             ->with('teams',$teams);
     }
     public function sendContactUs(Request $request) {

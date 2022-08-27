@@ -6,6 +6,12 @@
 <h2>New Category</h2>
 {{\Session()->get('message')}}
 <form action="{{URL::to('/')}}/cats" method="post" enctype="multipart/form-data"> @csrf
+    <select name="parent" id="" class="form-control">
+        <option value="0">Parent</option>
+        @foreach($cats as $cat)
+        <option value="{{$cat->id}}">{{$cat->name}}</option>
+        @endforeach
+    </select><br>
     <input type="text" name="name" placeholder="Category Name" class="form-control"><br>
        <button type="submit" class="btn btn-primary">Save</button>
 </form>

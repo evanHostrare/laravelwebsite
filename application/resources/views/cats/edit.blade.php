@@ -8,6 +8,12 @@
 <form action="{{URL::to('/')}}/cats/{{$singlecat->id}}" method="post" enctype="multipart/form-data"> @csrf
     {{ method_field('PUT') }}
     <input type="text" class="form-control" name="name" placeholder="Category Name" value="{{$singlecat->name}}"><br>
+    <select name="parent" id="" class="form-control">
+        <option value="0">Parent</option>
+        @foreach($cats as $cat)
+        <option value="{{$cat->id}}" @if($singlecat->parent==$cat->id) selected @endif>{{$cat->name}}</option>
+        @endforeach
+    </select><br>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

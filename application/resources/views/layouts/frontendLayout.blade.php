@@ -27,6 +27,22 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        
+                        <li class="nav-item dropdown"><a class=" nav-link dropdown-toggle"  data-bs-toggle="dropdown" href="#">Shop</a>
+                            @if($cats)
+                            <ul class="dropdown-menu">
+                                @foreach($cats as $cat)
+                                <?php $subcats=\DB::table('categories')->where('parent',$cat->id)->get();?>
+                                <li class="dropdown-item">{{$cat->name}}</li>
+                                    @if($subcats)
+                                        @foreach($subcats as $subcat)
+                                        <li class="dropdown-item"> -> {{$subcat->name}}</li>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            </ul>
+                            @endif
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>

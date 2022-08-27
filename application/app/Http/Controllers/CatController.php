@@ -33,7 +33,8 @@ class CatController extends Controller
      */
     public function create()
     {
-        return view('cats.create');
+        $cats=Cat::where('parent',0)->get();
+        return view('cats.create')->with('cats',$cats);
     }
 
     /**
@@ -46,6 +47,7 @@ class CatController extends Controller
     {        
         $cats=new Cat();
         $cats->name=$request->name;
+        $cats->parent=$request->parent;
         $cats->status=1;
         $cats->creator=Auth::user()->id;
         $cats->save();
@@ -78,9 +80,11 @@ class CatController extends Controller
      */
     public function edit($id)
     {
+        $cats=Cat::where('parent',0)->get();
         $singlecat=Cat::where('id',$id)->first();
         //$singlepost=Post::find($id); 
         return view('cats.edit')
+                ->with('cats',$cats)
                 ->with('singlecat',$singlecat);
     }
 
@@ -95,6 +99,7 @@ class CatController extends Controller
     {
         $cats=Cat::where('id',$id)->first();
         $cats->name=$request->name;
+        $cats->parent=$request->parent;
         $cats->save();
         // Checking Save working or not
         if($cats->id){
