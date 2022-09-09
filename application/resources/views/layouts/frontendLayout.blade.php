@@ -33,10 +33,10 @@
                             <ul class="dropdown-menu">
                                 @foreach($cats as $cat)
                                 <?php $subcats=\DB::table('categories')->where('parent',$cat->id)->get();?>
-                                <li class="dropdown-item">{{$cat->name}}</li>
+                                <li class="dropdown-item"><a href="{{URL::to('/')}}/category/{{$cat->id}}">{{$cat->name}}</a></li>
                                     @if($subcats)
                                         @foreach($subcats as $subcat)
-                                        <li class="dropdown-item"> -> {{$subcat->name}}</li>
+                                        <li class="dropdown-item"> -> <a href="{{URL::to('/')}}/category/{{$subcat->id}}">{{$subcat->name}}</a></li>
                                         @endforeach
                                     @endif
                                 @endforeach
@@ -53,6 +53,7 @@
                         @else
                         <li class="nav-item"><a class="nav-link" href="{{URL::to('login')}}">Login</a></li>
                         @endif
+                        <li class="nav-item"><a class="nav-link" href="{{URL::to('cartitems')}}"><i class="fa fa-shopping-cart"></i></a></li>
                     </ul>
                 </div>
             </div>

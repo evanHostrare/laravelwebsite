@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CatController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +30,15 @@ Route::get('/contact', [homeController::class,'contact']);
 Route::get('/product', [homeController::class,'product']);
 
 Route::get('/home', [homeController::class,'home2']);
+Route::get('/category/{id}', [homeController::class,'category']);
+Route::get('/cartitems', [homeController::class,'cartitems']);
+Route::post('/addtocart/{id}', [homeController::class,'addtocart']);
 Route::get('/about', [homeController::class,'home']);
 Route::post('/sendContactUs', [homeController::class,'sendContactUs']);
 
 Route::resource('posts', PostController::class)->middleware('auth');
 Route::resource('cats', CatController::class)->middleware('auth');
+Route::resource('product', ProductController::class)->middleware('auth');
 
 // Route::get('posts', [PostController::class,'index'])->middleware('auth');
 // Route::get('posts/create', [PostController::class,'create'])->middleware('auth');
