@@ -33,6 +33,9 @@ Route::get('/home', [homeController::class,'home2']);
 Route::get('/category/{id}', [homeController::class,'category']);
 Route::get('/cartitems', [homeController::class,'cartitems']);
 Route::post('/addtocart/{id}', [homeController::class,'addtocart']);
+Route::post('/updatecart/{id}', [homeController::class,'updatecart']);
+Route::get('/deleteitem/{id}', [homeController::class,'deleteitem']);
+Route::get('/removecart', [homeController::class,'removecart']);
 Route::get('/about', [homeController::class,'home']);
 Route::post('/sendContactUs', [homeController::class,'sendContactUs']);
 

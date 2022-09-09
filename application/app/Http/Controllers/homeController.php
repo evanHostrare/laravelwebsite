@@ -28,7 +28,11 @@ class homeController extends Controller
             ->with('teams',$teams);
     }
     public function cartitems() {
-        $sessid=Session::getId();
+        $sessid=Session::getId();        
+        $carttotal=\Cart::session($sessid)->getTotalQuantity();
+        if($carttotal==0){
+            return redirect('/');
+        }
         $cartitems=Cart::session($sessid)->getContent();
         //dd($cartitems);
         $cats=Cat::where('parent',0)->get();
@@ -61,6 +65,27 @@ class homeController extends Controller
         // $cartitems=Cart::session($sessid)->getContent();
         // dd($cartitems);
         return redirect()->back();
+    }
+    
+    public function updatecart(Request $request, $productid){
+        $sessid=Session::getId();
+        Cart::session($sessid)->update($productid, array(
+            'quantity' => array(
+                    'relative' => false,
+                    'value' => $request->qty
+                ),
+            ));
+        return redirect()->back();
+    }
+    public function deleteitem($productid){
+        $sessid=Session::getId();
+        Cart::session($sessid)->remove($productid); 
+        return redirect()->back(); 
+    }
+    public function removecart(){
+        $sessid=Session::getId();
+        Cart::session($sessid)->clear(); 
+        return redirect()->back(); 
     }
     public function sendContactUs(Request $request) {
         //dd($request->all());

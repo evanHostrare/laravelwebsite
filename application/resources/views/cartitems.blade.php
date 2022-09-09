@@ -17,6 +17,7 @@ Home Page
             <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
         </div>
         <div class="row">
+            <a href="{{URL::to('/')}}/removecart/" style="float: right;">Remove All</a>
             <table class="table table-bordered">
                 <tr>
                     <th>Picture</th>
@@ -24,19 +25,33 @@ Home Page
                     <th>Price</th>
                     <th>Qty</th>
                     <th>Total</th>
+                    <th>Remove</th>
                 </tr>
                 
             
            @foreach($cartitems as $item)
            <tr>
                 <td><img style="width:50px;" src="{{URL::to('/')}}/application/storage/app/products/{{$item->attributes[0]['picture']}}" alt=""></td>
-                <td>{{$item->name}}</td>
-                <td>{{$item->price}}</td>
-                <td>{{$item->quantity}}</td>
-                <td>{{$item->price*$item->quantity}}</td>
+                <td>{{$item->id}}{{$item->name}}</td>
+                <td>{{$item->price}} Tk.</td>
+                <td>
+                    <form action="{{URL::to('/')}}/updatecart/{{$item->id}}" method="post">@csrf                        
+                        <input type="number" name="qty" value="{{$item->quantity}}" min="1" required="">
+                        <button type="submit">Update</button>
+                    </form></td>
+                <td>{{$item->price*$item->quantity}}  Tk.</td>
+                <td style="text-align: center; color:red!important;"><a href="{{URL::to('/')}}/deleteitem/{{$item->id}}"><i class="fa fa-times"></i></a></td>
             </tr>         
             
            @endforeach
+           <tr>
+            <td colspan="4" style="text-align: right;">
+                Total:
+            </td>
+            <td colspan="2">
+                {{\Cart::session(\Session::getId())->getSubTotal()}}  Tk.
+            </td>
+           </tr>
         </table>
             {{-- <div class="col-lg-4 col-sm-6 mb-4">
                 <!-- Portfolio item 2-->

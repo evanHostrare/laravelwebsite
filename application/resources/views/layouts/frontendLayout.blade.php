@@ -53,7 +53,7 @@
                         @else
                         <li class="nav-item"><a class="nav-link" href="{{URL::to('login')}}">Login</a></li>
                         @endif
-                        <li class="nav-item"><a class="nav-link" href="{{URL::to('cartitems')}}"><i class="fa fa-shopping-cart"></i></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{URL::to('cartitems')}}"><i class="fa fa-shopping-cart"></i> ({{\Cart::session(\Session::getId())->getTotalQuantity()}})</a></li>
                     </ul>
                 </div>
             </div>
