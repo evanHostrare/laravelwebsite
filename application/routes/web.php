@@ -5,6 +5,7 @@ use App\Http\Controllers\homeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\loginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,12 @@ use App\Http\Controllers\ProductController;
 Route::get('/', [homeController::class,'index']);
 Route::get('postRearange', [homeController::class,'postRearange']);
 
+Route::get('admin/login',[loginController::class,'adminlogin']);
+Route::post('admin/login',[loginController::class,'adminlogincheck']);
+
+
+Route::post('admin/logout',[loginController::class,'adminlogout']);
+
 
 Route::get('/contact', [homeController::class,'contact']);
 Route::get('/product', [homeController::class,'product']);
@@ -39,9 +46,9 @@ Route::get('/removecart', [homeController::class,'removecart']);
 Route::get('/about', [homeController::class,'home']);
 Route::post('/sendContactUs', [homeController::class,'sendContactUs']);
 
-Route::resource('posts', PostController::class)->middleware('auth');
-Route::resource('cats', CatController::class)->middleware('auth');
-Route::resource('product', ProductController::class)->middleware('auth');
+Route::resource('posts', PostController::class)->middleware('admin');
+Route::resource('cats', CatController::class)->middleware('admin');
+Route::resource('product', ProductController::class)->middleware('admin');
 
 // Route::get('posts', [PostController::class,'index'])->middleware('auth');
 // Route::get('posts/create', [PostController::class,'create'])->middleware('auth');
@@ -50,13 +57,13 @@ Route::resource('product', ProductController::class)->middleware('auth');
 // Route::get('posts/{id}/edit', [PostController::class,'edit'])->middleware('auth');
 // Route::post('posts/update/{id}', [PostController::class,'update'])->middleware('auth');
 // Route::post('posts/{id}', [PostController::class,'destroy'])->middleware('auth');
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard')->middleware('admin');
+// Route::middleware([
+//     'admin',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->group(function () {
+    
+// });
