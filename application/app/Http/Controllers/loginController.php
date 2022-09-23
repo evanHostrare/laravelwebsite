@@ -37,4 +37,26 @@ class loginController extends Controller
         Auth::guard('admin')->logout();
         return redirect('admin/login');
     }
+
+    public function login(){
+        $cats=Cat::where('parent',0)->get();
+        return view('auth.login')
+        ->with('cats',$cats);
+    }
+    public function logincheck(Request $request){
+        
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+            return redirect('cartitems');
+        }else{
+        return back()->withInput($request->only('email', 'remember'));
+        }
+    }
+    public function logout(){
+        Auth::guard('web')->logout();
+        return redirect('login');
+    }
 }

@@ -17,7 +17,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-
+    protected $guard = 'web';
     /**
      * The attributes that are mass assignable.
      *

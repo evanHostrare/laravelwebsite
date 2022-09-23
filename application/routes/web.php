@@ -28,9 +28,11 @@ Route::get('postRearange', [homeController::class,'postRearange']);
 
 Route::get('admin/login',[loginController::class,'adminlogin']);
 Route::post('admin/login',[loginController::class,'adminlogincheck']);
-
-
 Route::post('admin/logout',[loginController::class,'adminlogout']);
+
+Route::get('login',[loginController::class,'login'])->name('login');
+Route::post('login',[loginController::class,'logincheck']);
+Route::post('logout',[loginController::class,'logout']);
 
 
 Route::get('/contact', [homeController::class,'contact']);
@@ -38,7 +40,7 @@ Route::get('/product', [homeController::class,'product']);
 
 Route::get('/home', [homeController::class,'home2']);
 Route::get('/category/{id}', [homeController::class,'category']);
-Route::get('/cartitems', [homeController::class,'cartitems']);
+Route::get('/cartitems', [homeController::class,'cartitems'])->middleware('auth');
 Route::post('/addtocart/{id}', [homeController::class,'addtocart']);
 Route::post('/updatecart/{id}', [homeController::class,'updatecart']);
 Route::get('/deleteitem/{id}', [homeController::class,'deleteitem']);
