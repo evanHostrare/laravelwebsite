@@ -6,9 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Cat;
+use App\Models\Payment;
+use App\Models\Shipping;
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUs;
 use Cart;
+use Auth;
 use Session;
 
 class homeController extends Controller
@@ -26,6 +31,56 @@ class homeController extends Controller
             ->with('abouts',$abouts)
             ->with('cats',$cats)
             ->with('teams',$teams);
+    }
+    public function placeorder(Request $request) {
+        $sessid=Session::getId();        
+        $carttotal=\Cart::session($sessid)->getTotalQuantity();
+        if($carttotal==0){
+            return redirect('/');
+        }
+        $cartitems=Cart::session($sessid)->getContent();
+        $order=new Order();
+        $order->orderid='';
+        $order->uid=Auth::user()->id;
+        $order->save();
+
+        if($order->id){
+            foreach($cartitems as $cartitem){
+                $orderitems=new OrderItem();
+                $orderitems->oid=$order->id;
+                $orderitems->pid=$cartitem->id;
+                $orderitems->qty=$cartitem->quantity;
+                $orderitems->save();
+            }
+        }
+
+        $pays=new Payment();
+        $pays->oid=$order->id;
+        $pays->uid=Auth::user()->id;
+        $pays->paymethod=$request->payment;
+        $pays->transactionid=$request->transactionid;
+        $pays->save();
+
+        $ships=new Shipping();
+        $ships->oid=$order->id;
+        $ships->uid=Auth::user()->id;
+        $ships->address=$request->address;
+        $ships->save();
+        Cart::session($sessid)->clear(); 
+        return redirect()->back(); 
+    }
+    public function checkout() {
+        $sessid=Session::getId();        
+        $carttotal=\Cart::session($sessid)->getTotalQuantity();
+        if($carttotal==0){
+            return redirect('/');
+        }
+        $cartitems=Cart::session($sessid)->getContent();
+        //dd($cartitems);
+        $cats=Cat::where('parent',0)->get();
+        return view('checkout')
+        ->with('cartitems',$cartitems)
+        ->with('cats',$cats);
     }
     public function cartitems() {
         $sessid=Session::getId();        

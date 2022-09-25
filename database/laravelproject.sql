@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2022 at 03:55 AM
+-- Generation Time: Sep 25, 2022 at 07:08 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -117,6 +117,55 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orderitems`
+--
+
+CREATE TABLE `orderitems` (
+  `id` int(11) NOT NULL,
+  `oid` int(11) NOT NULL DEFAULT 0,
+  `pid` int(11) NOT NULL DEFAULT 0,
+  `qty` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orderitems`
+--
+
+INSERT INTO `orderitems` (`id`, `oid`, `pid`, `qty`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 2, '2022-09-24 20:17:52', '2022-09-25 02:17:52'),
+(2, 1, 4, 1, '2022-09-24 20:17:52', '2022-09-25 02:17:52'),
+(3, 2, 4, 1, '2022-09-24 20:20:05', '2022-09-25 02:20:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `orderid` varchar(50) DEFAULT NULL,
+  `uid` int(11) NOT NULL DEFAULT 0,
+  `total` int(11) NOT NULL DEFAULT 0,
+  `disocunt` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `orderid`, `uid`, `total`, `disocunt`, `status`, `created_at`, `updated_at`) VALUES
+(1, '', 2, 0, 0, 0, '2022-09-24 20:17:52', '2022-09-25 02:17:52'),
+(2, '', 2, 0, 0, 0, '2022-09-24 20:20:05', '2022-09-25 02:20:05');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -133,6 +182,30 @@ CREATE TABLE `password_resets` (
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 ('evan@hostrare.com', '$2y$10$8M2McJf3QM.IjnucehIsuOCGiSEj6Gs4P4LE/goJ.6ex9KGZfgXpq', '2022-07-05 10:24:13'),
 ('evanpab@gmail.com', '$2y$10$SgWnO5iA.9fOrV5UBj9npu3pp.8PNuRASS19XcWhVZCpbMZrPODji', '2022-08-15 20:27:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `oid` int(11) NOT NULL DEFAULT 0,
+  `uid` int(11) NOT NULL DEFAULT 0,
+  `paymethod` int(11) NOT NULL DEFAULT 0,
+  `transactionid` varchar(300) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `oid`, `uid`, `paymethod`, `transactionid`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 1, 'adsasdfa', '2022-09-24 20:17:52', '2022-09-25 02:17:52'),
+(2, 2, 2, 3, 'adsasdfa', '2022-09-24 20:20:05', '2022-09-25 02:20:05');
 
 -- --------------------------------------------------------
 
@@ -260,7 +333,32 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('YLqlolWPjLhJ4E38VJFLG7AD2B3rVScyjoNKxc3x', 2, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoick1IbnZhb3lHUnRLclFWOVRoSEtXZFdoM0ViNVAxVXpYSEc3NkVldCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvY2FydGl0ZW1zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MToiT1JybXVsVDVNOVJhaWlOTmV5Q0Z2UU1UZEVaaXRJQlB2YUszRko2M19jYXJ0X2l0ZW1zIjtPOjMyOiJEYXJyeWxkZWNvZGVcQ2FydFxDYXJ0Q29sbGVjdGlvbiI6Mjp7czo4OiIAKgBpdGVtcyI7YToxOntpOjE7TzozMjoiRGFycnlsZGVjb2RlXENhcnRcSXRlbUNvbGxlY3Rpb24iOjM6e3M6OToiACoAY29uZmlnIjthOjY6e3M6MTQ6ImZvcm1hdF9udW1iZXJzIjtiOjA7czo4OiJkZWNpbWFscyI7aTowO3M6OToiZGVjX3BvaW50IjtzOjE6Ii4iO3M6MTM6InRob3VzYW5kc19zZXAiO3M6MToiLCI7czo3OiJzdG9yYWdlIjtOO3M6NjoiZXZlbnRzIjtOO31zOjg6IgAqAGl0ZW1zIjthOjY6e3M6MjoiaWQiO2k6MTtzOjQ6Im5hbWUiO3M6MTI6IlRlc3QgICAgSXRlbSI7czo1OiJwcmljZSI7ZDoyMDA7czo4OiJxdWFudGl0eSI7czoxOiIxIjtzOjEwOiJhdHRyaWJ1dGVzIjtPOjQxOiJEYXJyeWxkZWNvZGVcQ2FydFxJdGVtQXR0cmlidXRlQ29sbGVjdGlvbiI6Mjp7czo4OiIAKgBpdGVtcyI7YToxOntpOjA7YToxOntzOjc6InBpY3R1cmUiO3M6MTQ6IjE2NjIxNjg2NTgucG5nIjt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9czoxMDoiY29uZGl0aW9ucyI7YTowOnt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0MToiaHR0cDovL2xvY2FsaG9zdC9sYXJhdmVsd2Vic2l0ZS9jYXJ0aXRlbXMiO31zOjUxOiJmTDl5M05sYjJzYjJ0SEpPQlM3QVV6aDJYbThodEJiaGV2ZTVHMW55X2NhcnRfaXRlbXMiO086MzI6IkRhcnJ5bGRlY29kZVxDYXJ0XENhcnRDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjE6e2k6MTtPOjMyOiJEYXJyeWxkZWNvZGVcQ2FydFxJdGVtQ29sbGVjdGlvbiI6Mzp7czo5OiIAKgBjb25maWciO2E6Njp7czoxNDoiZm9ybWF0X251bWJlcnMiO2I6MDtzOjg6ImRlY2ltYWxzIjtpOjA7czo5OiJkZWNfcG9pbnQiO3M6MToiLiI7czoxMzoidGhvdXNhbmRzX3NlcCI7czoxOiIsIjtzOjc6InN0b3JhZ2UiO047czo2OiJldmVudHMiO047fXM6ODoiACoAaXRlbXMiO2E6Njp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czoxMjoiVGVzdCAgICBJdGVtIjtzOjU6InByaWNlIjtkOjIwMDtzOjg6InF1YW50aXR5IjtzOjE6IjEiO3M6MTA6ImF0dHJpYnV0ZXMiO086NDE6IkRhcnJ5bGRlY29kZVxDYXJ0XEl0ZW1BdHRyaWJ1dGVDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjE6e2k6MDthOjE6e3M6NzoicGljdHVyZSI7czoxNDoiMTY2MjE2ODY1OC5wbmciO319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjEwOiJjb25kaXRpb25zIjthOjA6e319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO3M6NTE6IllMcWxvbFdQakxoSjRFMzhWSkZMRzdBRDJCM3JWU2N5am9OS3hjM3hfY2FydF9pdGVtcyI7TzozMjoiRGFycnlsZGVjb2RlXENhcnRcQ2FydENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7aToxO086MzI6IkRhcnJ5bGRlY29kZVxDYXJ0XEl0ZW1Db2xsZWN0aW9uIjozOntzOjk6IgAqAGNvbmZpZyI7YTo2OntzOjE0OiJmb3JtYXRfbnVtYmVycyI7YjowO3M6ODoiZGVjaW1hbHMiO2k6MDtzOjk6ImRlY19wb2ludCI7czoxOiIuIjtzOjEzOiJ0aG91c2FuZHNfc2VwIjtzOjE6IiwiO3M6Nzoic3RvcmFnZSI7TjtzOjY6ImV2ZW50cyI7Tjt9czo4OiIAKgBpdGVtcyI7YTo2OntzOjI6ImlkIjtpOjE7czo0OiJuYW1lIjtzOjEyOiJUZXN0ICAgIEl0ZW0iO3M6NToicHJpY2UiO2Q6MjAwO3M6ODoicXVhbnRpdHkiO3M6MToiMSI7czoxMDoiYXR0cmlidXRlcyI7Tzo0MToiRGFycnlsZGVjb2RlXENhcnRcSXRlbUF0dHJpYnV0ZUNvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7aTowO2E6MTp7czo3OiJwaWN0dXJlIjtzOjE0OiIxNjYyMTY4NjU4LnBuZyI7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6MTA6ImNvbmRpdGlvbnMiO2E6MDp7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fX0=', 1663898010);
+('I1yBQpHqBNmrgwd2nk2FXku8Kneqz8j6DCNkdM5g', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiWndsN0xWNkxwOHFrR0NKbUJqdVpnYVk1emZsejJXRW82Qk5aTHZObiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUvY2F0ZWdvcnkvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1664082455),
+('QM22TKJXyPO3FxyWtl6mQ7wORO2sicUobNknRCbZ', 2, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQWJKNnp3T0hvbURwYk80a1ZKTnd4eGFxbm1yRkw3Y2haM0xoNHRTRyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO3M6NTE6IlFNMjJUS0pYeVBPM0Z4eVd0bDZtUTd3T1JPMnNpY1VvYk5rblJDYlpfY2FydF9pdGVtcyI7YTowOnt9fQ==', 1664072406),
+('YLqlolWPjLhJ4E38VJFLG7AD2B3rVScyjoNKxc3x', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoick1IbnZhb3lHUnRLclFWOVRoSEtXZFdoM0ViNVAxVXpYSEc3NkVldCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbHdlYnNpdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUxOiJPUnJtdWxUNU05UmFpaU5OZXlDRnZRTVRkRVppdElCUHZhSzNGSjYzX2NhcnRfaXRlbXMiO086MzI6IkRhcnJ5bGRlY29kZVxDYXJ0XENhcnRDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjE6e2k6MTtPOjMyOiJEYXJyeWxkZWNvZGVcQ2FydFxJdGVtQ29sbGVjdGlvbiI6Mzp7czo5OiIAKgBjb25maWciO2E6Njp7czoxNDoiZm9ybWF0X251bWJlcnMiO2I6MDtzOjg6ImRlY2ltYWxzIjtpOjA7czo5OiJkZWNfcG9pbnQiO3M6MToiLiI7czoxMzoidGhvdXNhbmRzX3NlcCI7czoxOiIsIjtzOjc6InN0b3JhZ2UiO047czo2OiJldmVudHMiO047fXM6ODoiACoAaXRlbXMiO2E6Njp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czoxMjoiVGVzdCAgICBJdGVtIjtzOjU6InByaWNlIjtkOjIwMDtzOjg6InF1YW50aXR5IjtzOjE6IjEiO3M6MTA6ImF0dHJpYnV0ZXMiO086NDE6IkRhcnJ5bGRlY29kZVxDYXJ0XEl0ZW1BdHRyaWJ1dGVDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjE6e2k6MDthOjE6e3M6NzoicGljdHVyZSI7czoxNDoiMTY2MjE2ODY1OC5wbmciO319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjEwOiJjb25kaXRpb25zIjthOjA6e319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjM6InVybCI7YToxOntzOjg6ImludGVuZGVkIjtzOjQxOiJodHRwOi8vbG9jYWxob3N0L2xhcmF2ZWx3ZWJzaXRlL2NhcnRpdGVtcyI7fXM6NTE6ImZMOXkzTmxiMnNiMnRISk9CUzdBVXpoMlhtOGh0QmJoZXZlNUcxbnlfY2FydF9pdGVtcyI7TzozMjoiRGFycnlsZGVjb2RlXENhcnRcQ2FydENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7aToxO086MzI6IkRhcnJ5bGRlY29kZVxDYXJ0XEl0ZW1Db2xsZWN0aW9uIjozOntzOjk6IgAqAGNvbmZpZyI7YTo2OntzOjE0OiJmb3JtYXRfbnVtYmVycyI7YjowO3M6ODoiZGVjaW1hbHMiO2k6MDtzOjk6ImRlY19wb2ludCI7czoxOiIuIjtzOjEzOiJ0aG91c2FuZHNfc2VwIjtzOjE6IiwiO3M6Nzoic3RvcmFnZSI7TjtzOjY6ImV2ZW50cyI7Tjt9czo4OiIAKgBpdGVtcyI7YTo2OntzOjI6ImlkIjtpOjE7czo0OiJuYW1lIjtzOjEyOiJUZXN0ICAgIEl0ZW0iO3M6NToicHJpY2UiO2Q6MjAwO3M6ODoicXVhbnRpdHkiO3M6MToiMSI7czoxMDoiYXR0cmlidXRlcyI7Tzo0MToiRGFycnlsZGVjb2RlXENhcnRcSXRlbUF0dHJpYnV0ZUNvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7aTowO2E6MTp7czo3OiJwaWN0dXJlIjtzOjE0OiIxNjYyMTY4NjU4LnBuZyI7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6MTA6ImNvbmRpdGlvbnMiO2E6MDp7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTE6IllMcWxvbFdQakxoSjRFMzhWSkZMRzdBRDJCM3JWU2N5am9OS3hjM3hfY2FydF9pdGVtcyI7TzozMjoiRGFycnlsZGVjb2RlXENhcnRcQ2FydENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7aToxO086MzI6IkRhcnJ5bGRlY29kZVxDYXJ0XEl0ZW1Db2xsZWN0aW9uIjozOntzOjk6IgAqAGNvbmZpZyI7YTo2OntzOjE0OiJmb3JtYXRfbnVtYmVycyI7YjowO3M6ODoiZGVjaW1hbHMiO2k6MDtzOjk6ImRlY19wb2ludCI7czoxOiIuIjtzOjEzOiJ0aG91c2FuZHNfc2VwIjtzOjE6IiwiO3M6Nzoic3RvcmFnZSI7TjtzOjY6ImV2ZW50cyI7Tjt9czo4OiIAKgBpdGVtcyI7YTo2OntzOjI6ImlkIjtpOjE7czo0OiJuYW1lIjtzOjEyOiJUZXN0ICAgIEl0ZW0iO3M6NToicHJpY2UiO2Q6MjAwO3M6ODoicXVhbnRpdHkiO3M6MToiMSI7czoxMDoiYXR0cmlidXRlcyI7Tzo0MToiRGFycnlsZGVjb2RlXENhcnRcSXRlbUF0dHJpYnV0ZUNvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7aTowO2E6MTp7czo3OiJwaWN0dXJlIjtzOjE0OiIxNjYyMTY4NjU4LnBuZyI7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6MTA6ImNvbmRpdGlvbnMiO2E6MDp7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fX0=', 1663898787);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shippings`
+--
+
+CREATE TABLE `shippings` (
+  `id` int(11) NOT NULL,
+  `oid` int(11) NOT NULL DEFAULT 0,
+  `uid` int(11) NOT NULL DEFAULT 0,
+  `address` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `shippings`
+--
+
+INSERT INTO `shippings` (`id`, `oid`, `uid`, `address`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 'House: 32 Groud Floor, Road: 8, Block: E, Section: 1, Mirpur-1', '2022-09-24 20:17:52', '2022-09-25 02:17:52'),
+(2, 2, 2, 'House: 32 Groud Floor, Road: 8, Block: E, Section: 1, Mirpur-1', '2022-09-24 20:20:05', '2022-09-25 02:20:05');
 
 -- --------------------------------------------------------
 
@@ -290,7 +388,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (1, 'Md Mahbubul Alam', 'evanpab@gmail.com', NULL, '$2y$10$fcqHOcqxZZjLQ4KmysZxXuBbMKOIdA00l960rp3a3DbYFpzgfYYHC', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-04 10:22:17', '2022-06-04 10:22:17'),
-(2, 'Evan', 'evan@hostrare.com', NULL, '$2y$10$fcqHOcqxZZjLQ4KmysZxXuBbMKOIdA00l960rp3a3DbYFpzgfYYHC', NULL, NULL, NULL, 'zfCSdbYvY1HT9AUHRYZrqwQMLaMK5oXlYKJu5dimugtJHssrjldxOuDEk6Ct', NULL, NULL, '2022-06-07 10:28:25', '2022-07-05 10:06:17'),
+(2, 'Evan', 'evan@hostrare.com', NULL, '$2y$10$fcqHOcqxZZjLQ4KmysZxXuBbMKOIdA00l960rp3a3DbYFpzgfYYHC', NULL, NULL, NULL, 'rMH6aDRLA7zJ1DkzkL1uMA5lRw1bebLDjzVS5xQy9d3P8FuhaKr04tKToJTs', NULL, NULL, '2022-06-07 10:28:25', '2022-07-05 10:06:17'),
 (3, 'Evan BIndin', 'evan@bindim.com', NULL, '$2y$10$Oj/tkGSyq062O7Lboi1KIOhSxZX3kBnTKwN2NUhHF7KOmOFL9HMSW', NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-15 20:18:21', '2022-08-15 20:18:21');
 
 --
@@ -323,10 +421,28 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `orderitems`
+--
+ALTER TABLE `orderitems`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -361,6 +477,12 @@ ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sessions_user_id_index` (`user_id`),
   ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Indexes for table `shippings`
+--
+ALTER TABLE `shippings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -398,6 +520,24 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `orderitems`
+--
+ALTER TABLE `orderitems`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -420,6 +560,12 @@ ALTER TABLE `products`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shippings`
+--
+ALTER TABLE `shippings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -41,6 +41,8 @@ Route::get('/product', [homeController::class,'product']);
 Route::get('/home', [homeController::class,'home2']);
 Route::get('/category/{id}', [homeController::class,'category']);
 Route::get('/cartitems', [homeController::class,'cartitems'])->middleware('auth');
+Route::get('/checkout', [homeController::class,'checkout'])->middleware('auth');
+Route::post('/checkout', [homeController::class,'placeorder'])->middleware('auth');
 Route::post('/addtocart/{id}', [homeController::class,'addtocart']);
 Route::post('/updatecart/{id}', [homeController::class,'updatecart']);
 Route::get('/deleteitem/{id}', [homeController::class,'deleteitem']);

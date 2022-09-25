@@ -53,6 +53,7 @@ Home Page
             </td>
            </tr>
         </table>
+        <a href="{{URL::to('/')}}/checkout" class="btn btn-primary float-right">Checkout</a>
             {{-- <div class="col-lg-4 col-sm-6 mb-4">
                 <!-- Portfolio item 2-->
                 <div class="portfolio-item">
