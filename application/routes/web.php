@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\orderController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\ProductController;
@@ -50,6 +51,8 @@ Route::get('/removecart', [homeController::class,'removecart']);
 Route::get('/about', [homeController::class,'home']);
 Route::post('/sendContactUs', [homeController::class,'sendContactUs']);
 
+Route::get('orders', [orderController::class,'index'])->middleware('admin');
+Route::get('invoice/{id}', [orderController::class,'invoice'])->middleware('admin');
 Route::resource('posts', PostController::class)->middleware('admin');
 Route::resource('cats', CatController::class)->middleware('admin');
 Route::resource('product', ProductController::class)->middleware('admin');
