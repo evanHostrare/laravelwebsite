@@ -67,7 +67,7 @@
                                         <td>{{$orderitem->qty}}</td>
                                         <td>{{number_format($productinfo->price,2)}}</td>
                                         <td style="text-align: right;">{{number_format($orderitem->qty*$productinfo->price,2)}}</td>
-                                        <?php $subtotal+=$orderitem->qty*$productinfo->price;?>
+                                        <?php $subtotal+=$orderitem->qty*$productinfo->price;  ?>
                                     </tr>
                                     @endforeach
                                 </table>
