@@ -12,13 +12,16 @@
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
                     Invoice
+                    
+                    <a target="_blank" style="float:right; margin:0px 5px;" href="{{URL::to('/')}}/pdfInvoice/{{$orderdetils->id}}" class="btn btn-primary">PDF</a>
+                    <a target="_blank" style="float:right;  margin:0px 5px;" href="{{URL::to('/')}}/printInvoice/{{$orderdetils->id}}" class="btn btn-warning">Print</a>
                     {{-- <a href="{{URL::to('/')}}/posts/create" style="float:right;" class="btn btn-primary">New Post</a> --}}
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table">
                         <tr>
                             <td colspan="3">
-                                <h2>INVOICE</h2>
+                                <h2>INVOICE</h2>                                
                             </td>
                         </tr>
                         <tr>
