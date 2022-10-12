@@ -20,3 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/userlist', [ApiController::class,'index']);
+Route::post('/userRegestration', [ApiController::class,'userRegestration']);
+Route::post('/userDataUpdate', [ApiController::class,'userDataUpdate']);
+Route::get('/userDataDelete', [ApiController::class,'userDataDelete']);
